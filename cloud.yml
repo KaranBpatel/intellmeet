@@ -1,3 +1,4 @@
-# cloud.yml
 build:
-  php_version: "8.4"
+  php: "8.2"
+  timeout: 30  # Increase timeout to 30 minutes
+  memory: 2048  # Increase memory to 2GB
