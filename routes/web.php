@@ -149,4 +149,6 @@ Route::get('/test-session-check', function () {
 Route::get('/pulse', function () {
     return view('pulse::dashboard');
 })->middleware(['auth', 'can:viewPulse']); 
-  APP_URL=https://intelmeet-9j1t.onrender.com
+  Route::get('/debug-log', function () {
+    return nl2br(file_get_contents(storage_path('logs/laravel.log')));
+});
