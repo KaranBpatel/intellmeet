@@ -1,0 +1,8 @@
+/vendor
+/node_modules
+/storage
+/tests
+.git
+.env
+*.log
+.DS_Store
