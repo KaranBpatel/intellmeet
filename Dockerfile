@@ -27,7 +27,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 bootstrap/cache
 
 EXPOSE 10000
-
+RUN rm -f database/database.sqlite
 # Startup script
 RUN echo '#!/bin/bash\n\
 echo "Running migrations..."\n\
