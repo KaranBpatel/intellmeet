@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
-    postgresql-client \
+    libpq-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd zip pdo pdo_pgsql
 
@@ -18,7 +18,6 @@ WORKDIR /app
 
 COPY . .
 
-# Install composer dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Create storage directories and set permissions
@@ -29,12 +28,19 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
 
 EXPOSE 10000
 
-# Create startup script
+# Startup script
 RUN echo '#!/bin/bash\n\
 echo "Running migrations..."\n\
 php artisan migrate --force --no-interaction || echo "Migration failed, continuing..."\n\
 echo "Clearing cache..."\n\
 php artisan config:clear\n\
+php artisan cache:clear\n\
+php artisan view:clear\n\
+echo "Starting server..."\n\
+php artisan serve --host=0.0.0.0 --port=${PORT:-10000}' > /start.sh \
+    && chmod +x /start.sh
+
+CMD ["/start.sh"]php artisan config:clear\n\
 php artisan cache:clear\n\
 php artisan view:clear\n\
 echo "Starting server..."\n\
