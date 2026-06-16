@@ -146,9 +146,11 @@ Route::get('/test-session-check', function () {
 });
 
 // Pulse dashboard
-Route::get('/pulse', function () {
-    return view('pulse::dashboard');
-})->middleware(['auth', 'can:viewPulse']); 
-  Route::get('/debug-log', function () {
-    return nl2br(file_get_contents(storage_path('logs/laravel.log')));
+Route::get('/test-db', function() {
+    try {
+        $connection = DB::connection()->getPdo();
+        return "Database connection successful!";
+    } catch (\Exception $e) {
+        return "Database connection failed: " . $e->getMessage();
+    }
 });
