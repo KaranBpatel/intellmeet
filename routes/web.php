@@ -148,4 +148,5 @@ Route::get('/test-session-check', function () {
 // Pulse dashboard
 Route::get('/pulse', function () {
     return view('pulse::dashboard');
-})->middleware(['auth', 'can:viewPulse']);
+})->middleware(['auth', 'can:viewPulse']); 
+  APP_URL=https://intelmeet-9j1t.onrender.com
