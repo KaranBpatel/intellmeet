@@ -57,4 +57,3 @@ php artisan serve --host=0.0.0.0 --port=${PORT:-10000}' > /start.sh \
     && chmod +x /start.sh
 
 CMD ["/start.sh"]
-CMD ["bash", "deploy.sh"]
