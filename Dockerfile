@@ -22,3 +22,5 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 EXPOSE 10000
 
 CMD php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
+# Add this after composer install
+RUN php artisan migrate --force --no-interaction
