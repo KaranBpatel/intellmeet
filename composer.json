@@ -1,33 +1,14 @@
 {
-    "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "The Laravel Framework.",
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "aws/aws-sdk-php": "^3.379",
-        "barryvdh/laravel-dompdf": "^3.1",
-        "doctrine/dbal": "^4.4",
-        "illuminate/filesystem": "*",
-        "laravel/framework": "^12.0",
-        "laravel/reverb": "*",
-        "laravel/sanctum": "^4.3",
-        "laravel/tinker": "^2.10.1",
-        "maatwebsite/excel": "^3.1",
-        "openai-php/laravel": "^0.19.1",
-        "predis/predis": "^3.4",
-        "pusher/pusher-php-server": "^7.2"
+        "laravel/framework": "^12.0"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^3.7",
         "fakerphp/faker": "^1.23",
-        "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.13",
-        "laravel/sail": "^1.41",
-        "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
         "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
@@ -35,6 +16,36 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-install-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "php artisan optimize"
+        ],
+        "migrate": [
+            "php artisan migrate --force"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable"
+}            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
