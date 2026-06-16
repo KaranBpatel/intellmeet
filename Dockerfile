@@ -21,8 +21,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /app
 
-# Copy application files
+# Copy application files (including .env)
 COPY . .
+
+# Remove .env.example if it exists and rename .env to .env.example
+RUN if [ -f .env ]; then mv .env .env.example; fi
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=php
@@ -39,11 +42,51 @@ ENV PORT=10000
 # Expose port
 EXPOSE 10000
 
-# Startup script
+# Startup script - will create .env from environment variables
 RUN echo '#!/bin/bash\n\
 echo "Starting application..."\n\
-echo "Database Host: ${DB_HOST:-not set}"\n\
-echo "Database Name: ${DB_DATABASE:-not set}"\n\
+echo "Creating .env from environment variables..."\n\
+cat > .env << EOF\n\
+APP_NAME=${APP_NAME:-IntelliMeet}\n\
+APP_ENV=${APP_ENV:-production}\n\
+APP_KEY=${APP_KEY}\n\
+APP_DEBUG=${APP_DEBUG:-false}\n\
+APP_URL=${APP_URL}\n\
+\n\
+DB_CONNECTION=pgsql\n\
+DB_HOST=${DB_HOST}\n\
+DB_PORT=${DB_PORT:-5432}\n\
+DB_DATABASE=${DB_DATABASE}\n\
+DB_USERNAME=${DB_USERNAME}\n\
+DB_PASSWORD=${DB_PASSWORD}\n\
+\n\
+CACHE_DRIVER=file\n\
+SESSION_DRIVER=file\n\
+SESSION_LIFETIME=120\n\
+\n\
+MAIL_MAILER=smtp\n\
+MAIL_HOST=smtp.gmail.com\n\
+MAIL_PORT=587\n\
+MAIL_USERNAME=${MAIL_USERNAME}\n\
+MAIL_PASSWORD=${MAIL_PASSWORD}\n\
+MAIL_ENCRYPTION=tls\n\
+MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}\n\
+MAIL_FROM_NAME="${APP_NAME:-IntelliMeet}"\n\
+\n\
+OPENAI_API_KEY=${OPENAI_API_KEY}\n\
+OPENAI_ORGANIZATION=${OPENAI_ORGANIZATION}\n\
+OPENAI_MAX_TOKENS=${OPENAI_MAX_TOKENS:-2000}\n\
+\n\
+PUSHER_APP_ID=dummy_id\n\
+PUSHER_APP_KEY=dummy_key\n\
+PUSHER_APP_SECRET=dummy_secret\n\
+PUSHER_APP_CLUSTER=ap1\n\
+COMPOSER_NO_SCRIPTS=1\n\
+EOF\n\
+\n\
+echo "Generated .env file:"\n\
+cat .env\n\
+\n\
 echo "Running migrations..."\n\
 php artisan migrate --force --no-interaction || echo "Migration skipped"\n\
 echo "Optimizing..."\n\
