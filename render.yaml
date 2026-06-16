@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: intellimeet
+    runtime: image
+    repo: https://github.com/palpatel1312r/intellmeet
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: intellimeet-db
+          property: connectionString
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+    domains:
+      - intellimeet.onrender.com
+
+  - type: postgres
+    name: intellimeet-db
+    plan: free
+    databaseName: intellimeet
+    user: intellimeet_user
