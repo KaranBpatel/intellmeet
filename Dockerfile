@@ -24,7 +24,7 @@ WORKDIR /app
 # Copy application files
 COPY . .
 
-# Install dependencies with ignore platform flag
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=php
 
 # Create necessary directories
@@ -42,6 +42,8 @@ EXPOSE 10000
 # Startup script
 RUN echo '#!/bin/bash\n\
 echo "Starting application..."\n\
+echo "Database Host: ${DB_HOST:-not set}"\n\
+echo "Database Name: ${DB_DATABASE:-not set}"\n\
 echo "Running migrations..."\n\
 php artisan migrate --force --no-interaction || echo "Migration skipped"\n\
 echo "Optimizing..."\n\
