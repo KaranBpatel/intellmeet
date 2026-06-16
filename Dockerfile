@@ -39,21 +39,27 @@ ENV PORT=10000
 # Expose port
 EXPOSE 10000
 
-# Startup script
-RUN echo '#!/bin/bash\n\
-echo "Starting application..."\n\
-echo "Database Host: ${DB_HOST:-not set}"\n\
-echo "Database Name: ${DB_DATABASE:-not set}"\n\
-echo "Running migrations..."\n\
-php artisan migrate --force --no-interaction\n\
-echo "Creating storage link..."\n\
-php artisan storage:link || echo "Storage link already exists"\n\
-echo "Optimizing..."\n\
-php artisan config:cache\n\
-php artisan route:cache\n\
-php artisan view:cache\n\
-echo "Starting server on port ${PORT:-10000}..."\n\
-php artisan serve --host=0.0.0.0 --port=${PORT:-10000}' > /start.sh \
-    && chmod +x /start.sh
-
-CMD ["/start.sh"]
+# STARTUP SCRIPT - THIS WILL RUN MIGRATIONS
+CMD ["sh", "-c", "\
+    echo '==========================================' && \
+    echo '🚀 Starting IntelliMeet Application...' && \
+    echo '==========================================' && \
+    echo '' && \
+    echo '📊 Running database migrations...' && \
+    php artisan migrate --force --no-interaction && \
+    echo '✅ Migrations completed!' && \
+    echo '' && \
+    echo '🔑 Generating app key...' && \
+    php artisan key:generate --force && \
+    echo '' && \
+    echo '🔗 Creating storage link...' && \
+    php artisan storage:link || true && \
+    echo '' && \
+    echo '⚡ Optimizing...' && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
+    echo '' && \
+    echo '🚀 Starting server on port ${PORT:-10000}...' && \
+    php artisan serve --host=0.0.0.0 --port=${PORT:-10000} \
+"]
