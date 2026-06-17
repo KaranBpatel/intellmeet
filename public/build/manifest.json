@@ -1,0 +1,27 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-tn0RQdqM.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/meeting-video.css": {
+    "file": "assets/meeting-video-gWhieZU2.css",
+    "src": "resources/css/meeting-video.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-mpY60sd_.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/meeting-video.js": {
+    "file": "assets/meeting-video-CwXwcQd6.js",
+    "name": "meeting-video",
+    "src": "resources/js/meeting-video.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  }
+}
