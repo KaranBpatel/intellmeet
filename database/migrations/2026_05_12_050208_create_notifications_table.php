@@ -4,24 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+// This migration is superseded by 2026_04_02_182914_create_notifications_table.php
+// which already creates the notifications table with the correct schema.
+// Kept as a no-op to preserve migration history integrity.
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        // No-op: notifications table is created by 2026_04_02_182914_create_notifications_table.php
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        // No-op
     }
 };
